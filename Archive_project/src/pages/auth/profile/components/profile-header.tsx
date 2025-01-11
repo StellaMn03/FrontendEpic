@@ -1,9 +1,8 @@
 import { useOutletContext } from "react-router-dom";
-import { IContext, IResponse, IUser } from "../../../../helpers/types";
+import { IContext, IUser } from "../../../../helpers/types";
 import { useRef, useState } from "react";
 import { Http } from "../../../../helpers/api";
 import { BASE_URL } from "../../../../helpers/constants";
-import { set } from "react-hook-form";
 export const ProfileHeader = () => {
   const { user, setData } = useOutletContext<IContext>();
   const photo = useRef<null | HTMLInputElement>(null);
@@ -14,7 +13,7 @@ export const ProfileHeader = () => {
       return;
     }
     const reader = new FileReader(); //binar nkary kardalu hamar
-    reader.readAsDataURL(upload); //sa veradardznuma nenc ban vor heto karenank render anenk vorpes nkar
+    reader.readAsDataURL(upload); //veradardznum a nenc ban vor heto karenank render anenk vorpes nkar
     reader.onload = () => {
       setPreview(reader.result as string);
     };
@@ -63,7 +62,7 @@ export const ProfileHeader = () => {
               <div className="w-24 h-24 bg-gray-700 flex items-center justify-center rounded-full overflow-hidden mb-3">
                 <img
                   className="object-cover w-full h-full"
-                  src={preview} // Replace with your image source
+                  src={preview}
                   alt="Image preview"
                 />
               </div>
