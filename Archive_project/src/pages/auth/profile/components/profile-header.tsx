@@ -1,10 +1,12 @@
 import { useOutletContext } from "react-router-dom";
-import { IContext, IUser } from "../../../../helpers/types";
+import { IContext } from "../../../../helpers/types";
 import { useRef, useState } from "react";
 import { Http } from "../../../../helpers/api";
 import { BASE_URL } from "../../../../helpers/constants";
+import { IResponse } from "../../../../helpers/types";
+
 export const ProfileHeader = () => {
-  const { user, setData } = useOutletContext<IContext>();
+  const { user, refetch } = useOutletContext<IContext>();
   const photo = useRef<null | HTMLInputElement>(null);
   const [preview, setPreview] = useState("");
   const handleChange = () => {
@@ -25,14 +27,14 @@ export const ProfileHeader = () => {
       return;
     }
     form.append("picture", file);
-    Http.patch("/profile/upload", form).then((response) => {
-      const payload = response.data.payload as string;
-      setData({ ...user, picture: BASE_URL + payload } as IUser);
+    Http.patch<IResponse>("/profile/upload", form).then(() => {
+      refetch();
+      setPreview("");
     });
   };
   return (
     user && (
-      <div className="min-h-screen bg-gray-900 text-white flex flex-col items-start p-6">
+      <div className=" bg-gray-900 text-white flex flex-col items-start p-6">
         <div className="flex items-center gap-6 mb-6">
           <img
             onClick={() => photo.current?.click()}
